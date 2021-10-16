@@ -158,11 +158,19 @@
         }
 
         function sweetFound(count){
-            Swal.fire(
-                'Mamy to!',
-                'Znaleziono ' + count + ' stacji',
-                'info'
-            )
+            if(count>0) {
+                Swal.fire(
+                    'Mamy to!',
+                    'Znaleziono ' + count + ' stacji',
+                    'info'
+                )
+            } else {
+                Swal.fire(
+                    'Niestety!',
+                    'Nie znaleziono stacji spełniających kryteria wyszukiwania',
+                    'info'
+                )
+            }
         }
 
         function sweetFail(jqXHR){
