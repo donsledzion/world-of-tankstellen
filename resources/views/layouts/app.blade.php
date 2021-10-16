@@ -20,7 +20,9 @@
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
+            @if(Auth::user())
+                @include('layouts.navigation')
+            @endif
 
             <!-- Page Heading -->
             <header class="bg-white shadow">
@@ -28,7 +30,19 @@
                     {{ $header }}
                 </div>
             </header>
+                @if (Route::has('login'))
+                    <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
+                        @auth
 
+                        @else
+                            <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Logowanie</a>
+
+                            @if (Route::has('register'))
+                                <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Rejestracja</a>
+                            @endif
+                        @endauth
+                    </div>
+            @endif
             <!-- Page Content -->
             <main>
                 {{ $slot }}

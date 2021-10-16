@@ -143,7 +143,11 @@
         var stationRate = 1;
 
         const user_id = "{{Auth::id()}}";
-        console.log("User id: "+user_id);
+        if(user_id) {
+            console.log("User id: " + user_id);
+        } else {
+            console.log("user id is NULL");
+        }
 
         function sweetException(e){
             Swal.fire(
@@ -505,58 +509,65 @@
         }
 
         function addOpinion(station_id){
+            if(user_id) {
+                Swal.fire({
 
-            Swal.fire({
-
-                title: 'Jak oceniasz tę stację?',
-                html:   '<button type="button" role="button" onclick="assignRate(1)" tabindex="0" class="SwalBtn1 customSwalBtn"><b>1</b></button>' +
+                    title: 'Jak oceniasz tę stację?',
+                    html: '<button type="button" role="button" onclick="assignRate(1)" tabindex="0" class="SwalBtn1 customSwalBtn"><b>1</b></button>' +
                         '<button type="button" role="button" onclick="assignRate(2)" tabindex="0" class="SwalBtn2 customSwalBtn"><b>2</b></button>' +
                         '<button type="button" role="button" onclick="assignRate(3)" tabindex="0" class="SwalBtn3 customSwalBtn"><b>3</b></button>' +
                         '<button type="button" role="button" onclick="assignRate(4)" tabindex="0" class="SwalBtn4 customSwalBtn"><b>4</b></button>' +
                         '<button type="button" role="button" onclick="assignRate(5)" tabindex="0" class="SwalBtn5 customSwalBtn"><b>5</b></button><br/><br/>' +
                         'Podziel się swoją opinią',
 
-                input: 'text',
-                inputAttributes: {
-                    autocapitalize: 'off'
-                },
-                showCancelButton: true,
-                cancelButtonText: 'Anuluj',
-                confirmButtonText: 'Dodaj',
-                showLoaderOnConfirm: true,
-                preConfirm: (comment) => {
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
+                    input: 'text',
+                    inputAttributes: {
+                        autocapitalize: 'off'
+                    },
+                    showCancelButton: true,
+                    cancelButtonText: 'Anuluj',
+                    confirmButtonText: 'Dodaj',
+                    showLoaderOnConfirm: true,
+                    preConfirm: (comment) => {
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
 
-                    $.ajax({
-                        method: 'post',
-                        url: baseUrl + 'opinion',
-                        dataType: 'json',
-                        data:{
-                            user_id: user_id,
-                            station_id: station_id,
-                            rate: stationRate,
-                            comment: comment,
-                        }
-                    }).done(function(response){
-                        Swal.fire({
-                            icon: `${response.status}`,
-                            title: 'Gratulacje!',
-                            html: response.message
+                        $.ajax({
+                            method: 'post',
+                            url: baseUrl + 'opinion',
+                            dataType: 'json',
+                            data: {
+                                user_id: user_id,
+                                station_id: station_id,
+                                rate: stationRate,
+                                comment: comment,
+                            }
+                        }).done(function (response) {
+                            Swal.fire({
+                                icon: `${response.status}`,
+                                title: 'Gratulacje!',
+                                html: response.message
+                            })
+                        }).fail(function (response) {
+                            Swal.fire({
+                                icon: `${response.status}`,
+                                title: 'Ojojoj!',
+                                html: response.message
+                            })
                         })
-                    }).fail(function(response){
-                        Swal.fire({
-                            icon: `${response.status}`,
-                            title: 'Ojojoj!',
-                            html: response.message
-                        })
-                    })
-                },
-                allowOutsideClick: () => !Swal.isLoading()
-            })
+                    },
+                    allowOutsideClick: () => !Swal.isLoading()
+                })
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Zaloguj się!',
+                    html: 'Musisz się zalogować aby dodawać opinie'
+                })
+            }
         }
 
     </script>

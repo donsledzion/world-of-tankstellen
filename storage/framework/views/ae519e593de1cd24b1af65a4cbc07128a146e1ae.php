@@ -20,7 +20,9 @@
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
-            <?php echo $__env->make('layouts.navigation', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+            <?php if(Auth::user()): ?>
+                <?php echo $__env->make('layouts.navigation', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+            <?php endif; ?>
 
             <!-- Page Heading -->
             <header class="bg-white shadow">
@@ -29,7 +31,19 @@
 
                 </div>
             </header>
+                <?php if(Route::has('login')): ?>
+                    <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
+                        <?php if(auth()->guard()->check()): ?>
 
+                        <?php else: ?>
+                            <a href="<?php echo e(route('login')); ?>" class="text-sm text-gray-700 dark:text-gray-500 underline">Logowanie</a>
+
+                            <?php if(Route::has('register')): ?>
+                                <a href="<?php echo e(route('register')); ?>" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Rejestracja</a>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                    </div>
+            <?php endif; ?>
             <!-- Page Content -->
             <main>
                 <?php echo e($slot); ?>

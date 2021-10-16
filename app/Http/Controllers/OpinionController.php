@@ -6,6 +6,7 @@ use App\Http\Requests\OpinionRequest;
 use App\Models\Opinion;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OpinionController extends Controller
 {
@@ -37,25 +38,31 @@ class OpinionController extends Controller
      */
     public function store(OpinionRequest $request)
     {
-
-        try {
-            //error_log("Request: ".$request->validated());
-            Opinion::create([
-                'user_id' => $request->user_id,
-                'station_id' => $request->station_id,
-                'rate' => $request->rate,
-                'comment' => $request->comment,
-            ]);
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Dodano opinię',
-            ])->setStatusCode(200);
-        } catch (\Exception $e) {
-            error_log("An exception caught! ".$e->getMessage());
+        if(Auth::user()) {
+            try {
+                //error_log("Request: ".$request->validated());
+                Opinion::create([
+                    'user_id' => $request->user_id,
+                    'station_id' => $request->station_id,
+                    'rate' => $request->rate,
+                    'comment' => $request->comment,
+                ]);
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Dodano opinię',
+                ])->setStatusCode(200);
+            } catch (\Exception $e) {
+                error_log("An exception caught! " . $e->getMessage());
+                return response()->json([
+                    'status' => 'fail',
+                    'message' => 'Błąd!' . $e->getMessage(),
+                ])->setStatusCode(500);
+            }
+        } else {
             return response()->json([
                 'status' => 'fail',
-                'message' => 'Błąd!'.$e->getMessage(),
-            ])->setStatusCode(500);
+                'message' => 'Musisz się zalogować aby dodawać opinie!',
+            ])->setStatusCode(401);
         }
     }
 

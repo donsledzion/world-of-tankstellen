@@ -15,19 +15,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('maps.show');
 });
 
 Route::get('/map', function(){
     return view('maps.show');
-})->name('map')->middleware(['auth']);
+})->name('map');
 
 Route::resource('opinion',\App\Http\Controllers\OpinionController::class);
 
 Route::get('/stations/{int}/opinions',[OpinionController::class,'showByStation']);
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+    return view('maps.show');
+})->name('dashboard');
 
 require __DIR__.'/auth.php';
