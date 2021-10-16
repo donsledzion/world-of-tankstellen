@@ -11,15 +11,15 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     <!-- component -->
 
-                    <div id="map" class="map" style="height: 600px; width: 60%; display: inline-block;"></div>
-                    <div id="side" class="bar align-top" style="height: 600px; width: 39%; margin-left:5px; display: inline-block;">
+                    <div id="map" class="map xl:inline-block xl:w-7/12 sm:w-auto" style="height: 600px; /*width: 60%; */"></div>
+                    <div id="side" class="bar align-top xl:w-4/12 sm:w-auto" style="height: 600px; /*width: 39%;*/ margin-left:5px; display: inline-block;">
                         <div>
-                            <label for="search_city" >Wpisz miasto aby wyszukać stacje paliw:</label>
+                            <label for="search_city" class="font-bold block" >Wpisz miasto aby wyszukać stacje paliw:</label>
                             <input id="search_city" class="search_city" type="text" placeholder="podaj miasto">
                             <button class="search_button btn-info bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="button">SZUKAJ</button>
                         </div>
                         <div>
-                            <label for="search_radius" >Podaj promień wyszukiwania od środka mapy: [km]</label>
+                            <label for="search_radius" class="font-bold block" >Podaj promień wyszukiwania od środka mapy: [km]</label>
                             <input id="search_radius" class="search_radius" type="number" step="1" placeholder="Podaj promień" value="10">
                         <button class="search_button_radius btn-info bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="button">SZUKAJ</button>
 
