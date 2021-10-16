@@ -163,11 +163,19 @@
         }
 
         function sweetFound(count){
-            Swal.fire(
-                'Mamy to!',
-                'Znaleziono ' + count + ' stacji',
-                'info'
-            )
+            if(count>0) {
+                Swal.fire(
+                    'Mamy to!',
+                    'Znaleziono ' + count + ' stacji',
+                    'info'
+                )
+            } else {
+                Swal.fire(
+                    'Niestety!',
+                    'Nie znaleziono stacji spełniających kryteria wyszukiwania',
+                    'info'
+                )
+            }
         }
 
         function sweetFail(jqXHR){
@@ -449,6 +457,8 @@
                                                 '<span>' + createdAt.toLocaleDateString() + '</span></div>' +
                                             '</div>'
                         });
+
+                        commentsList += '<div>Średnia ocena: <b>' + response.averageRate + ' / 5</b></div>';
                         if(commentsList !== '') {
                             Swal.fire({
                                 title: 'Opinie o stacji:',

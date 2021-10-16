@@ -99,11 +99,17 @@ class OpinionController extends Controller
     public function showByStation(int $id):JsonResponse
     {
         $opinions = Opinion::where('station_id',$id)->with('user')->get();
+        $rateSum = 0 ;
+        foreach($opinions as $opinion){
+            $rateSum += $opinion->rate;
+        }
+        $average = $rateSum / $opinions->count();
         if($opinions->count()>0){
             return response()->json([
                 'status' => 'success',
                 'message' => 'Znaleziono '.$opinions->count().' opinii:',
                 'opinions' => $opinions,
+                'averageRate' => $average,
             ]);
         } else {
             return response()->json([

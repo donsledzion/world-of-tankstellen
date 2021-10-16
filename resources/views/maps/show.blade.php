@@ -452,6 +452,8 @@
                                                 '<span>' + createdAt.toLocaleDateString() + '</span></div>' +
                                             '</div>'
                         });
+
+                        commentsList += '<div>Średnia ocena: <b>' + response.averageRate + ' / 5</b></div>';
                         if(commentsList !== '') {
                             Swal.fire({
                                 title: 'Opinie o stacji:',
