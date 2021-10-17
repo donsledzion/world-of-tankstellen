@@ -328,7 +328,7 @@
             startPoint = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326') ;
             console.log(startPoint);
             if(stationsFound>0){
-                findAndShoRoute(startPoint, lastSearch);
+                findAndShwoRoute(startPoint, lastSearch);
             }
         });
 
@@ -373,7 +373,7 @@
             source2.addFeature(marker);
         }
 
-        function findAndShoRoute(routeFrom, routeTo){
+        function findAndShowRoute(routeFrom, routeTo){
 
             var startString = routeFrom[0] + ',' + routeFrom[1];
             var endString = routeTo[0] + ',' + routeTo[1];
