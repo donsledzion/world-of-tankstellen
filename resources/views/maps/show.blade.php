@@ -368,7 +368,7 @@
             source2.addFeature(marker);
         }
 
-        function findAndShoRoute(routeFrom, routeTo){
+        function findAndShowRoute(routeFrom, routeTo){
 
             var startString = routeFrom[0] + ',' + routeFrom[1];
             var endString = routeTo[0] + ',' + routeTo[1];
@@ -608,16 +608,13 @@
                 render_map([lon,lat]);
             })
                 .on('click','.add_opinion',function(){
-                console.log("Station id: "+$(this).data("station-id"));
                 addOpinion($(this).data("station-id"))
             })
                 .on('click','.get_opinions',function(){
-                console.log("Station id: "+$(this).data("station-id"));
                 getOpinions($(this).data("station-id"));
             }).on('click', '.route_button',function(){
-                console.log('clicked!');
                 lastSearch = [$(this).data("lon"),$(this).data("lat")] ;
-                findAndShoRoute(startPoint,lastSearch);
+                findAndShowRoute(startPoint,lastSearch);
             });
 
             $('.customSwalBtn').on('click','swal2-shown',function(){

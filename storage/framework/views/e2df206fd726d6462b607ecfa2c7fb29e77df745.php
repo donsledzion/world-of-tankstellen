@@ -4,7 +4,7 @@
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php $component->withAttributes([]); ?>
-     <?php $__env->slot('header', null, []); ?> 
+     <?php $__env->slot('header', null, []); ?>
         <h2 class="font-semibold text-xl text-gray-800 leading-tight inline">
             Mapy
         </h2>
@@ -93,7 +93,7 @@
                             <button class="search_button_radius btn-info bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="button">SZUKAJ</button>
                             </div>
                         </div>
-                        
+
 
 
                         <div class="flex flex-col text-left">
@@ -127,7 +127,7 @@
                         </div>
 
 
-                        
+
                     </div>
 
 
@@ -622,6 +622,7 @@
             }).on('click', '.route_button',function(){
                 console.log('clicked!');
                 lastSearch = [$(this).data("lon"),$(this).data("lat")] ;
+                source2.clear();
                 findAndShoRoute(startPoint,lastSearch);
             });
 
