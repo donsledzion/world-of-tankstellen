@@ -4,7 +4,7 @@
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php $component->withAttributes([]); ?>
-     <?php $__env->slot('header', null, []); ?>
+     <?php $__env->slot('header', null, []); ?> 
         <h2 class="font-semibold text-xl text-gray-800 leading-tight inline">
             Mapy
         </h2>
@@ -93,7 +93,7 @@
                             <button class="search_button_radius btn-info bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="button">SZUKAJ</button>
                             </div>
                         </div>
-
+                        
 
 
                         <div class="flex flex-col text-left">
@@ -127,7 +127,7 @@
                         </div>
 
 
-
+                        
                     </div>
 
 
@@ -137,7 +137,7 @@
         </div>
 
     </div>
-    <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+    <script src="https://www.openlayers.org/api/OpenLayers.js"></script>
     <script type="text/javascript">
         const avatarsUrl =  "<?php echo e(asset('storage/img/avatars/')); ?>/" ;
         const pinsUrl =  "<?php echo e(asset('storage/img/pins/')); ?>/" ;
@@ -328,7 +328,7 @@
             startPoint = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326') ;
             console.log(startPoint);
             if(stationsFound>0){
-                findAndShwoRoute(startPoint, lastSearch);
+                findAndShowRoute(startPoint, lastSearch);
             }
         });
 
@@ -613,14 +613,11 @@
                 render_map([lon,lat]);
             })
                 .on('click','.add_opinion',function(){
-                console.log("Station id: "+$(this).data("station-id"));
                 addOpinion($(this).data("station-id"))
             })
                 .on('click','.get_opinions',function(){
-                console.log("Station id: "+$(this).data("station-id"));
                 getOpinions($(this).data("station-id"));
             }).on('click', '.route_button',function(){
-                console.log('clicked!');
                 lastSearch = [$(this).data("lon"),$(this).data("lat")] ;
                 source2.clear();
                 findAndShowRoute(startPoint,lastSearch);

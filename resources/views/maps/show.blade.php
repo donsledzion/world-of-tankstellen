@@ -614,6 +614,7 @@
                 getOpinions($(this).data("station-id"));
             }).on('click', '.route_button',function(){
                 lastSearch = [$(this).data("lon"),$(this).data("lat")] ;
+                source2.clear();
                 findAndShowRoute(startPoint,lastSearch);
             });
 
