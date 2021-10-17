@@ -132,7 +132,7 @@
         </div>
 
     </div>
-    <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+    <script src="https://www.openlayers.org/api/OpenLayers.js"></script>
     <script type="text/javascript">
         const avatarsUrl =  "{{ asset('storage/img/avatars/') }}/" ;
         const pinsUrl =  "{{ asset('storage/img/pins/') }}/" ;
