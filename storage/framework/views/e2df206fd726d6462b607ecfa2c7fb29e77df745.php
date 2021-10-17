@@ -623,7 +623,7 @@
                 console.log('clicked!');
                 lastSearch = [$(this).data("lon"),$(this).data("lat")] ;
                 source2.clear();
-                findAndShoRoute(startPoint,lastSearch);
+                findAndShowRoute(startPoint,lastSearch);
             });
 
             $('.customSwalBtn').on('click','swal2-shown',function(){
