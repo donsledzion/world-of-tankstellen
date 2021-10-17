@@ -383,7 +383,7 @@
             $.ajax({
                 method: 'get',
                 format: 'json',
-                url:    'http://router.project-osrm.org/route/v1/driving/' + startString + ';' + endString + '?overview=full&geometries=polyline6'
+                url:    'https://router.project-osrm.org/route/v1/driving/' + startString + ';' + endString + '?overview=full&geometries=polyline6'
             }).done(function(response){
 
                 drawRoute(response.routes[0]);
