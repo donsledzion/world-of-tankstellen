@@ -103,7 +103,12 @@ class OpinionController extends Controller
         foreach($opinions as $opinion){
             $rateSum += $opinion->rate;
         }
-        $average = $rateSum / $opinions->count();
+
+        if($opinions->count()>0) {
+            $average = $rateSum / $opinions->count();
+        } else {
+            $average = null ;
+        }
         if($opinions->count()>0){
             return response()->json([
                 'status' => 'success',

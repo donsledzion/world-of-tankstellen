@@ -4,92 +4,93 @@
             Mapy
         </h2>
     </x-slot>
+    <style>
+        div.scroll {
+            background-color: #fed9ff;
+            width: auto;
+            height: 400px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            text-align: center;
+            padding: 5px;
+        }
 
+        ::-webkit-scrollbar {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            border-radius: 100vh;
+            background: #edf2f7;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e0;
+            border-radius: 100vh;
+            border: 3px solid #edf2f7;
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a0aec0;
+        }
+
+        .customSwalBtn{
+            background-image: url("{{asset('storage/img/icons/star.png')}}");
+            background-size: 50px;
+            width: 50px;
+            height: 50px;
+            /*background-color: rgba(214,130,47,1.00);*/
+            border-left-color: rgba(214,130,47,1.00);
+            border-right-color: rgba(214,130,47,1.00);
+            border: 0;
+            border-radius: 3px;
+            box-shadow: none;
+            color: black;
+            cursor: pointer;
+            font-size: 17px;
+            font-weight: 500;
+            margin: 2px;
+            padding: 2px;
+        }
+        .customSwalBtn:hover{
+            background-image: url("{{asset('storage/img/icons/star_hover.png')}}");
+        }
+
+        .sweetOpinion{
+            border: 1px dotted black;
+            border-radius: 10px;
+            padding-top:8px;
+            padding-bottom: 8px;
+            margin: 4px;
+        }
+    </style>
     <div class="py-8">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <!-- component -->
 
-                    <div id="map" class="map xl:inline-block xl:w-7/12 sm:w-auto" style="height: 600px; /*width: 60%; */"></div>
-                    <div id="side" class="bar align-top xl:w-4/12 sm:w-auto" style="height: 600px; /*width: 39%;*/ margin-left:5px; display: inline-block;">
-                        <div>
-                            <label for="search_city" class="font-bold block" >Wpisz miasto aby wyszukać stacje paliw:</label>
-                            <input id="search_city" class="search_city" type="text" placeholder="podaj miasto">
-                            <button class="search_button btn-info bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="button">SZUKAJ</button>
-                        </div>
-                        <div>
-                            <label for="search_radius" class="font-bold block" >Podaj promień wyszukiwania od środka mapy: [km]</label>
-                            <input id="search_radius" class="search_radius" type="number" step="1" placeholder="Podaj promień" value="10">
-                        <button class="search_button_radius btn-info bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="button">SZUKAJ</button>
-
+                    <div id="map" class="map xl:inline-block xl:w-7/12 sm:w-auto" style="height: 600px;"></div>
+                    <div id="side" class="bar align-top xl:w-4/12 sm:w-auto" style="height: 600px; margin-left:5px; display: inline-block;">
+                        <div class="px-5 py-3 shadow overflow-hidden border-b bg-blue-300 border-gray-200 sm:rounded-lg" style="margin-bottom: 10px;">
+                            <div>
+                                <label for="search_city" class="font-bold block" >Wpisz miasto aby wyszukać stacje paliw:</label>
+                                <input id="search_city" class="search_city" type="text" placeholder="podaj miasto">
+                                <button class="search_button btn-info bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="button">SZUKAJ</button>
+                            </div>
+                            <div>
+                                <label for="search_radius" class="font-bold block" >Podaj promień wyszukiwania od środka mapy: [km]</label>
+                                <input id="search_radius" class="search_radius" type="number" step="1" placeholder="Podaj promień" value="10">
+                            <button class="search_button_radius btn-info bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="button">SZUKAJ</button>
+                            </div>
                         </div>
                         {{--======================================================================================--}}
 
-                        <style>
-                            div.scroll {
-                                background-color: #fed9ff;
-                                width: auto;
-                                height: 470px;
-                                overflow-x: hidden;
-                                overflow-y: auto;
-                                text-align: center;
-                                padding: 5px;
-                            }
 
-                            ::-webkit-scrollbar {
-                                width: 16px;
-                                height: 16px;
-                            }
-
-                            /* Track */
-                            ::-webkit-scrollbar-track {
-                                border-radius: 100vh;
-                                background: #edf2f7;
-                            }
-
-                            /* Handle */
-                            ::-webkit-scrollbar-thumb {
-                                background: #cbd5e0;
-                                border-radius: 100vh;
-                                border: 3px solid #edf2f7;
-                            }
-
-                            /* Handle on hover */
-                            ::-webkit-scrollbar-thumb:hover {
-                                background: #a0aec0;
-                            }
-
-                            .customSwalBtn{
-                                background-image: url("{{asset('storage/img/icons/star.png')}}");
-                                background-size: 50px;
-                                width: 50px;
-                                height: 50px;
-                                /*background-color: rgba(214,130,47,1.00);*/
-                                border-left-color: rgba(214,130,47,1.00);
-                                border-right-color: rgba(214,130,47,1.00);
-                                border: 0;
-                                border-radius: 3px;
-                                box-shadow: none;
-                                color: black;
-                                cursor: pointer;
-                                font-size: 17px;
-                                font-weight: 500;
-                                margin: 2px;
-                                padding: 2px;
-                            }
-                            .customSwalBtn:hover{
-                                background-image: url("{{asset('storage/img/icons/star_hover.png')}}");
-                            }
-
-                            .sweetOpinion{
-                                border: 1px dotted black;
-                                border-radius: 10px;
-                                padding-top:8px;
-                                padding-bottom: 8px;
-                                margin: 4px;
-                            }
-                        </style>
                         <div class="flex flex-col text-left">
                             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -137,8 +138,18 @@
         const pinsUrl =  "{{ asset('storage/img/pins/') }}/" ;
         const starUrl = "{{asset('storage/img/icons/star.png')}}";
         const starMiniUrl = "{{asset('storage/img/icons/star_mini.png')}}";
-        const baseUrl = "{{asset('')}}"
+        const baseUrl = "{{asset('')}}";
+        const geoJson = "{{asset('storage/route.json')}}";
+        const routeIcon = "{{asset('storage/img/icons/route.png')}}";
+        var startPoint = [18.61245, 54.37174] ;
+        var stationsFound = 0 ;
+        var lastSearch = [18.61245, 54.37174];
 
+
+        const formatter = new Intl.NumberFormat('pl-PL', {
+            maximumFractionDigits: 1,
+            minimumFractionDigits: 1
+        });
 
         var stationRate = 1;
 
@@ -187,6 +198,7 @@
             console.log("================== STATIONS ================");
             console.log("============================================");
             $("#stations-list tbody").empty();
+            source.clear();
             $.each(stations.elements, function ($key, $value) {
                 let name = $value.tags.operator ?? $value.tags.brand ?? $value.tags.name;
                 let address = ($value.tags['addr:city'] ?? "") + " - " + ($value.tags['addr:street'] ?? "") + " " + ($value.tags['addr:housenumber'] ?? "");
@@ -223,9 +235,11 @@
                                 ' data-station-id="' + $value.id + '"><img src=" ' + starMiniUrl + ' " style="height:20px;"></button>' +
                         '</td>' +
 
-                        '<td class="px-1 py-2 whitespace-nowrap text-center text-xs font-medium content-center">' +
-                            '<button class="add_opinion content-center text-center text-indigo-600 hover:text-indigo-900"' +
-                            ' data-station-id="' + $value.id + '">oceń</button>' +
+                        '<td class="px-1 py-2 block whitespace-nowrap text-center text-xs font-medium content-center">' +
+                            '<button class="route_button block content-center text-center text-indigo-600 hover:text-indigo-900"' +
+                                ' data-station-id="' + $value.id + '"  data-lon="' + lon + '" data-lat="' + lat + '">' +
+                                '<img src="' + routeIcon + '" style="height: 20px;">' +
+                            '</button>' +
                         '</td>' +
                     '</tr>');
 
@@ -252,7 +266,7 @@
         }
 
         let view = new ol.View({
-            center: ol.proj.fromLonLat([18.61245, 54.37174]),
+            center: ol.proj.fromLonLat(startPoint),
             zoom: 18
         });
 
@@ -271,18 +285,50 @@
         source = new ol.source.Vector({
             features: [
                 new ol.Feature({
-                    geometry: new ol.geom.Point(ol.proj.fromLonLat([18.61245, 54.37174]))
+                    geometry: new ol.geom.Point(ol.proj.fromLonLat(startPoint))
                 })
             ]
         });
 
+        source2 = new ol.source.Vector({
+
+        });
+
+        var layer2 = new ol.layer.Vector({
+            source: source2
+        });
         var layer = new ol.layer.Vector({
             source: source
         });
         map.addLayer(layer);
+        map.addLayer(layer2);
 
+
+        const styles = {
+            route: new ol.style.Style({
+                stroke: new ol.style.Stroke({
+                    width: 6, color: [40, 40, 40, 0.8]
+                })
+            }),
+            icon: new ol.style.Style({
+                image: new ol.style.Icon({
+                    anchor: [0.5, 1],
+                    src: pinsUrl + 'dot.png'
+                })
+            })
+        };
+
+        map.on('click', function(evt){
+            source2.clear();
+            startPoint = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326') ;
+            console.log(startPoint);
+            if(stationsFound>0){
+                findAndShoRoute(startPoint, lastSearch);
+            }
+        });
 
         function addFeatureLonLat(lon, lat,name){
+
             var marker = new ol.Feature({
                 geometry: new ol.geom.Point(ol.proj.fromLonLat([lon, lat])),
             });
@@ -291,10 +337,8 @@
                 image: new ol.style.Icon(({
                     anchor: [0.5,1],
                     scale: 0.3,
-                    /*size: [140,260],*/
                     crossOrigin: 'anonymous',
                     src: getAvatar(pinsUrl,name),
-
                 }))
             }));
 
@@ -302,16 +346,79 @@
         }
 
 
+        function addDotMarkerLonLat(lon, lat, name=null){
+
+            var marker = new ol.Feature({
+                geometry: new ol.geom.Point(ol.proj.fromLonLat([lon, lat])),
+            });
+
+            if(!name){
+                name = "dot";
+            }
+
+            marker.setStyle(new ol.style.Style({
+                image: new ol.style.Icon(({
+                    anchor: [0.5,1],
+                    scale: 0.3,
+                    crossOrigin: 'anonymous',
+                    src: getAvatar(pinsUrl,name),
+                }))
+            }));
+
+            source2.addFeature(marker);
+        }
+
+        function findAndShoRoute(routeFrom, routeTo){
+
+            var startString = routeFrom[0] + ',' + routeFrom[1];
+            var endString = routeTo[0] + ',' + routeTo[1];
+            /*source2.clear();*/
+            addDotMarkerLonLat(routeFrom[0],routeFrom[1],'start');
+
+            $.ajax({
+                method: 'get',
+                format: 'json',
+                url:    'http://router.project-osrm.org/route/v1/driving/' + startString + ';' + endString + '?overview=full&geometries=polyline6'
+            }).done(function(response){
+
+                drawRoute(response.routes[0]);
+
+            }).fail(function(response){
+                console.log('Fail response: '+response);
+
+            });
+        }
 
 
-        function render_map(location=[18.61245, 54.37174], zoom_lvl=18) {
+        function drawRoute(geometry){
+
+            console.log(geometry);
+
+            var route = new ol.format.Polyline({
+                factor: 1e6
+            }).readGeometry(geometry.geometry, {
+                dataProjection: 'EPSG:4326',
+                featureProjection: 'EPSG:3857'
+            });
+            var feature = new ol.Feature(route);
+            feature.setStyle(styles.route);
+            /*source2.clear();*/
+
+            source2.addFeature(feature);
+            view.fit(route, {
+                size: [450,450],
+                duration: 1000,
+            });
+        }
+
+        function render_map(location=startPoint, zoom_lvl=18) {
             view.setCenter(ol.proj.fromLonLat(location));
             view.setZoom(zoom_lvl);
         }
 
         function find_stations(city) {
             //===================================================================================
-            let timerInterval
+            stationsFound = 0 ;
             Swal.fire({
                 title: 'Szukam stacji w mieście ' + city,
                 html: 'to potrwa tylko chwilkę',
@@ -340,6 +447,7 @@
                 try {
                     let stations = JSON.parse(JSON.stringify(pois));
                     sweetFound(stations.elements.length);
+                    stationsFound = stations.elements.length ;
                     listStations(stations);
                 } catch(e){
                     sweetException(e);
@@ -354,6 +462,7 @@
 
         function find_stations_radius(lon,lat, radius) {
             console.log("Szukam stacji w promieniu " + radius + " od lokalizacji ["+lon+" , " +lat+"]");
+            stationsFound = 0 ;
             Swal.fire({
                 title: 'Zaczekj chwilkę',
                 html: "Szukam stacji w promieniu " + (0.001*radius) + " km od wskazanej lokalizacji.",
@@ -382,6 +491,7 @@
             }).done(function (pois) {
                 let stations = JSON.parse(JSON.stringify(pois));
                 sweetFound(stations.elements.length);
+                stationsFound = stations.elements.length ;
                 listStations(stations);
             }).fail(function (jqXHR, textStatus, error) {
                 sweetFail(jqXHR);
@@ -403,11 +513,9 @@
                 url: path + name.toLowerCase() + '.png',
                 async: false,
                 error: function () {
-                    console.log('file does not exists');
                     nameExists = false;
                 },
                 success: function () {
-                    console.log('file exists');
                     nameExists = true;
                 }
             });
@@ -418,8 +526,6 @@
                 return path + 'tankstelle.png';
             }
         }
-
-
 
         function saveText(text, filename){
             var a = document.createElement('a');
@@ -452,9 +558,16 @@
                                                 '<span>' + createdAt.toLocaleDateString() + '</span></div>' +
                                             '</div>'
                         });
-
-                        commentsList += '<div>Średnia ocena: <b>' + response.averageRate + ' / 5</b></div>';
-                        if(commentsList !== '') {
+                        var addOpinionButton = '<button onclick="addOpinion('+station_id+')" class="bg-green-500 hover:bg-green-700 text-white text-center py-2 px-4 rounded">'+
+                            'Dodaj swoją opinię' +
+                            '</button>'
+                        if(response.averageRate != null){
+                            commentsList += '<div>Średnia ocena: <b>' + formatter.format(response.averageRate) + ' / 5</b></div>';
+                        }
+                        if(user_id){
+                            commentsList += addOpinionButton;
+                        }
+                        if(response.averageRate != null) {
                             Swal.fire({
                                 title: 'Opinie o stacji:',
                                 html: commentsList,
@@ -463,14 +576,14 @@
                         } else {
                             Swal.fire({
                                 title: 'Pusto',
-                                html: 'nie ma jeszcze żadnej opinii',
+                                html: '<div>nie ma jeszcze żadnej opinii</div><div>' + addOpinionButton + '</div>',
                                 icon: 'warning'
                             })
                         }
                     }).fail(function(response) {
                         console.log("coś się wyjebało");
                         Swal.fire({
-                            icon: `${response.status}`,
+                            icon: 'error',
                             title: 'Ojojoj!',
                             html: response.message
                         })
@@ -501,10 +614,10 @@
                 .on('click','.get_opinions',function(){
                 console.log("Station id: "+$(this).data("station-id"));
                 getOpinions($(this).data("station-id"));
-            });
-
-            $('.add_opinion').click(function(){
-                addOpinion('terefere');
+            }).on('click', '.route_button',function(){
+                console.log('clicked!');
+                lastSearch = [$(this).data("lon"),$(this).data("lat")] ;
+                findAndShoRoute(startPoint,lastSearch);
             });
 
             $('.customSwalBtn').on('click','swal2-shown',function(){
