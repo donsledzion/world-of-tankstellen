@@ -32,7 +32,7 @@
                 </div>
             </header>
                 <?php if(Route::has('login')): ?>
-                    <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
+                    <div class="fixed top-0 right-0 px-6 py-4 sm:block">
                         <?php if(auth()->guard()->check()): ?>
 
                         <?php else: ?>

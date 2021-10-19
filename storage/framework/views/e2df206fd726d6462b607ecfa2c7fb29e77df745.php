@@ -6,14 +6,15 @@
 <?php $component->withAttributes([]); ?>
      <?php $__env->slot('header', null, []); ?> 
         <h2 class="font-semibold text-xl text-gray-800 leading-tight inline">
-            Mapy
+            <?php echo e(config('app.name')); ?>
+
         </h2>
      <?php $__env->endSlot(); ?>
     <style>
         div.scroll {
             background-color: #fed9ff;
             width: auto;
-            height: 400px;
+            height: 430px;
             overflow-x: hidden;
             overflow-y: auto;
             text-align: center;
@@ -83,12 +84,12 @@
                     <div id="side" class="bar align-top xl:w-4/12 sm:w-auto" style="height: 600px; margin-left:5px; display: inline-block;">
                         <div class="px-5 py-3 shadow overflow-hidden border-b bg-blue-300 border-gray-200 sm:rounded-lg" style="margin-bottom: 10px;">
                             <div>
-                                <label for="search_city" class="font-bold block" >Wpisz miasto aby wyszukać stacje paliw:</label>
+                                <label for="search_city" class="font-bold block text-sm" >Wpisz miasto aby wyszukać stacje paliw:</label>
                                 <input id="search_city" class="search_city" type="text" placeholder="podaj miasto">
                                 <button class="search_button btn-info bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="button">SZUKAJ</button>
                             </div>
                             <div>
-                                <label for="search_radius" class="font-bold block" >Podaj promień wyszukiwania od środka mapy: [km]</label>
+                                <label for="search_radius" class="font-bold block text-sm" >Podaj promień wyszukiwania od środka mapy: [km]</label>
                                 <input id="search_radius" class="search_radius" type="number" step="1" placeholder="Podaj promień" value="10">
                             <button class="search_button_radius btn-info bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="button">SZUKAJ</button>
                             </div>
@@ -199,9 +200,6 @@
 
         function listStations(stations) {
             stationRate = 1;
-            console.log("============================================");
-            console.log("================== STATIONS ================");
-            console.log("============================================");
             $("#stations-list tbody").empty();
             source.clear();
             $.each(stations.elements, function ($key, $value) {
@@ -209,7 +207,6 @@
                 let address = ($value.tags['addr:city'] ?? "") + " - " + ($value.tags['addr:street'] ?? "") + " " + ($value.tags['addr:housenumber'] ?? "");
                 let lon = $value.lon;
                 let lat = $value.lat;
-                console.log(name + ", " + address);
                 render_map([lon, lat]);
                 addFeatureLonLat(lon,lat,name);
                 $('#stations_table').append('' +
@@ -223,9 +220,9 @@
                                 '</div>' +
                                 '<div class="ml-4">' +
                                     '<div class="text-xs font-medium text-center text-gray-900">' +
-                                        '<button class="zoom_station" type="button" data-lon="' + lon + '" data-lat="' + lat + '">'
+                                        '<button class="zoom_station" type="button" data-lon="' + lon + '" data-lat="' + lat + '"><b>'
                                             + name +
-                                        '</button>' +
+                                        '</b></button>' +
                                     '</div>' +
                                 '</div>' +
                             '</div>' +
@@ -251,7 +248,6 @@
                 try {
                     $('#avatar_' + $key).attr('src', getAvatar(avatarsUrl,name));
                 } catch(e){
-                    console.log('nie znaleziono zdjęcia');
                     $('#avatar_' + $key).attr('src', (avatarsUrl + 'tankstelle.png'));
                 }
             });
@@ -344,7 +340,21 @@
                     scale: 0.3,
                     crossOrigin: 'anonymous',
                     src: getAvatar(pinsUrl,name),
-                }))
+                })),
+                // ======================================================================
+
+                text: new ol.style.Text({
+                    font: '12px Calibri,sans-serif',
+                    fill: new ol.style.Fill({ color: '#000' }),
+                    stroke: new ol.style.Stroke({
+                        color: '#fff', width: 2
+                    }),
+                    // get the text from the feature - `this` is ol.Feature
+                    // and show only under certain resolution
+                    text: map.getView().getZoom() > 12 ? '' : ''
+                })
+
+                // ======================================================================
             }));
 
             source.addFeature(marker);
