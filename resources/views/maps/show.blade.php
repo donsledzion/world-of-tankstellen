@@ -108,7 +108,7 @@
                                                     Oceny
                                                 </th>
                                                 <th scope="col" class="relative px-2 py-2 text-center text-xs">
-                                                    Akcje
+                                                    Trasa
                                                 </th>
                                             </tr>
                                             </thead>
