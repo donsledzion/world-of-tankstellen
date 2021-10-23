@@ -8,7 +8,7 @@
         div.scroll {
             background-color: #fed9ff;
             width: auto;
-            height: 430px;
+            height: 480px;
             overflow-x: hidden;
             overflow-y: auto;
             text-align: center;
@@ -69,22 +69,23 @@
         }
     </style>
     <div class="py-8">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-full mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <!-- component -->
 
-                    <div id="map" class="map xl:inline-block xl:w-7/12 sm:w-auto" style="height: 600px;"></div>
-                    <div id="side" class="bar align-top xl:w-4/12 sm:w-auto" style="height: 600px; margin-left:5px; display: inline-block;">
+                    <div id="map" data-size="big" class="map xl:inline-block" style="height: 90vh; width: 80%; display: inline-block;"></div>
+
+                    <div id="side" data-size="big" class="bar align-top" style="height: 90vh; width: 19%; margin-left:5px; display: inline-block;">
                         <div class="px-5 py-3 shadow overflow-hidden border-b bg-blue-300 border-gray-200 sm:rounded-lg" style="margin-bottom: 10px;">
                             <div>
                                 <label for="search_city" class="font-bold block text-sm" >Wpisz miasto aby wyszukać stacje paliw:</label>
-                                <input id="search_city" class="search_city" type="text" placeholder="podaj miasto">
+                                <input id="search_city" class="search_city w-40" type="text" placeholder="podaj miasto">
                                 <button class="search_button btn-info bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="button">SZUKAJ</button>
                             </div>
                             <div>
                                 <label for="search_radius" class="font-bold block text-sm" >Podaj promień wyszukiwania od środka mapy: [km]</label>
-                                <input id="search_radius" class="search_radius" type="number" step="1" placeholder="Podaj promień" value="10">
+                                <input id="search_radius" class="search_radius w-40" type="number" step="1" placeholder="Podaj promień" value="10">
                             <button class="search_button_radius btn-info bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="button">SZUKAJ</button>
                             </div>
                         </div>
@@ -120,10 +121,12 @@
                                 </div>
                             </div>
                         </div>
-
-
+                        <div>
+                            <button id="hide-button" class="p-2 pl-5 pr-5 bg-transparent border-2 border-yellow-500 text-yellow-500 text-lg rounded-lg hover:bg-yellow-500 hover:text-gray-100 focus:border-4 focus:border-yellow-300">Schowaj</button>
+                        </div>
                         {{--======================================================================================--}}
                     </div>
+
 
 
                     <!-- component -->
@@ -631,7 +634,29 @@
                 console.log('clicked!');
             });
 
+            $('#hide-button').click(function(){
+                let state = $("#map").data("size");
+                console.log("Size: " + state);
+                if(state === 'big'){
+                    $("#side").css('visibility:hidden');
+                    $("#map").css('width','100%').append('<button id="show-button" class="p-2 pl-5 pr-5 bg-yellow-500 border-2 border-yellow-500 text-yellow-700 text-lg rounded-lg hover:bg-yellow-700 hover:text-gray-100 focus:border-4 focus:border-yellow-300" style="position:fixed; top: 140px; right: 80px; ">Pokaż opcje</button>');
+                    map.updateSize();
+                }
+            });
+            $('#map').on('click','#show-button',function(){
+                $("#side").css('visibility:visible');
+                $("#map").css('width','80%');
+                map.updateSize();
+                console.log('clicked!');
+                $(this).remove();
+            });
+
         });
+
+        function switchMapAndTableSize(){
+
+        }
+
 
         function assignRate(rate){
             console.log("rate assigned: "+rate);
