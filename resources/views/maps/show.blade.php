@@ -638,13 +638,13 @@
                 let state = $("#map").data("size");
                 console.log("Size: " + state);
                 if(state === 'big'){
-                    $("#side").css('visibility:hidden');
+                    $("#side").css('display','none');
                     $("#map").css('width','100%').append('<button id="show-button" class="p-2 pl-5 pr-5 bg-yellow-500 border-2 border-yellow-500 text-yellow-700 text-lg rounded-lg hover:bg-yellow-700 hover:text-gray-100 focus:border-4 focus:border-yellow-300" style="position:fixed; top: 140px; right: 80px; ">Pokaż opcje</button>');
                     map.updateSize();
                 }
             });
             $('#map').on('click','#show-button',function(){
-                $("#side").css('visibility:visible');
+                $("#side").css('display','inline-block');
                 $("#map").css('width','80%');
                 map.updateSize();
                 console.log('clicked!');
