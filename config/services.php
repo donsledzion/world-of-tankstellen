@@ -30,4 +30,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'places_api' => [
+        'client_id' => env('PLACES_API_CLIENT_ID'),
+        'secret' => env('PLACES_API_SECRET'),
+    ],
+
 ];

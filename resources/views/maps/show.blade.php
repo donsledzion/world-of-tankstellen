@@ -87,6 +87,7 @@
                                 <label for="search_radius" class="font-bold block text-sm" >Podaj promień wyszukiwania od środka mapy: [km]</label>
                                 <input id="search_radius" class="search_radius w-40" type="number" step="1" placeholder="Podaj promień" value="10">
                             <button class="search_button_radius btn-info bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="button">SZUKAJ</button>
+                            <button class="search_button_atm btn-info bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="button">SZUKAJ-ATM</button>
                             </div>
                         </div>
                         {{--======================================================================================--}}
@@ -125,8 +126,9 @@
                             <button id="hide-button" class="p-2 pl-5 pr-5 bg-transparent border-2 border-yellow-500 text-yellow-500 text-lg rounded-lg hover:bg-yellow-500 hover:text-gray-100 focus:border-4 focus:border-yellow-300">Schowaj</button>
                         </div>
                         {{--======================================================================================--}}
-                    </div>
 
+                    </div>
+                    <div id="found_atms"></div>
 
 
                     <!-- component -->
@@ -199,11 +201,11 @@
             stationRate = 1;
             $("#stations-list tbody").empty();
             source.clear();
-            $.each(stations.elements, function ($key, $value) {
-                let name = $value.tags.operator ?? $value.tags.brand ?? $value.tags.name;
-                let address = ($value.tags['addr:city'] ?? "") + " - " + ($value.tags['addr:street'] ?? "") + " " + ($value.tags['addr:housenumber'] ?? "");
-                let lon = $value.lon;
-                let lat = $value.lat;
+            $.each(stations.response.venues, function ($key, $value) {
+                let name = /*$value.tags.operator ?? $value.tags.brand ??*/ $value.name ?? "";
+                let address = ($value.location.city ?? "") + " - " + ($value.location.address ?? "") + " ";
+                let lon = $value.location.lng;
+                let lat = $value.location.lat;
                 render_map([lon, lat]);
                 addFeatureLonLat(lon,lat,name);
                 $('#stations_table').append('' +
@@ -445,21 +447,23 @@
             })
             //======================================================================
             $.ajax({
-                url:
-                    'https://www.overpass-api.de/api/interpreter?' +
-                    'data=[out:json][timeout:60];' +
-                    'area["boundary"~"administrative"]["name"~"' + city + '"];' +
-                    'node(area)["amenity"~"fuel"];' +
-                    'out;',
-                dataType: 'json',
-                type: 'GET',
-                async: true,
-                crossDomain: true
+                dataType: "json",
+                url: "https://api.foursquare.com/v2/venues/search",
+                data: {
+                    client_id:      "{{config('services.places_api.client_id')}}",
+                    client_secret:  "{{config('services.places_api.secret')}}",
+                    v:              '20180323',
+                    limit:          100,
+                    categoryId:     '4bf58dd8d48988d113951735',
+                    near: city,
+                    radius: 2500,
+                },
             }).done(function (pois) {
                 try {
+                    console.log(pois);
                     let stations = JSON.parse(JSON.stringify(pois));
-                    sweetFound(stations.elements.length);
-                    stationsFound = stations.elements.length ;
+                    sweetFound(pois.response.venues.length);
+                    stationsFound = pois.response.venues.length ;
                     listStations(stations);
                 } catch(e){
                     sweetException(e);
@@ -489,21 +493,21 @@
                 }
             })
             $.ajax({
-                url:
-                    'https://www.overpass-api.de/api/interpreter?' +
-                    'data=[out:json][timeout:60];' +
-                    'area' +
-                        '(around:'+radius+','+lon+','+lat+');' +
-                    'node(around:'+radius+','+lon+','+lat+')["amenity"~"fuel"];' +
-                    'out;',
-                dataType: 'json',
-                type: 'GET',
-                async: true,
-                crossDomain: true
+                dataType: "json",
+                url: "https://api.foursquare.com/v2/venues/search",
+                data: {
+                    client_id:      "{{config('services.places_api.client_id')}}",
+                    client_secret:  "{{config('services.places_api.secret')}}",
+                    v:              '20180323',
+                    limit:          100,
+                    ll:             ''+lon+','+lat+'',
+                    categoryId:     '4bf58dd8d48988d113951735',
+                    radius: radius,
+                },
             }).done(function (pois) {
                 let stations = JSON.parse(JSON.stringify(pois));
-                sweetFound(stations.elements.length);
-                stationsFound = stations.elements.length ;
+                sweetFound(stations.response.venues.length);
+                stationsFound = stations.response.venues.length ;
                 listStations(stations);
             }).fail(function (jqXHR, textStatus, error) {
                 sweetFail(jqXHR);
@@ -606,6 +610,9 @@
             $('.search_button').click(function(){
                 let typed_city = $('.search_city').val();
                 find_stations(typed_city);
+            });
+            $('.search_button_atm').click(function(){
+                getATMs();
             });
             $('.search_button_radius').click(function(){
                 let center = ol.proj.toLonLat(map.getView().getCenter());
@@ -724,6 +731,54 @@
                 })
             }
         }
+
+
+        function findATM(){
+            $.ajax({
+                method: 'post',
+                url: baseUrl + 'opinion',
+                dataType: 'json',
+                data: {
+                    user_id: user_id,
+                    station_id: station_id,
+                    rate: stationRate,
+                    comment: comment,
+                }
+            }).done(function (response) {
+                Swal.fire({
+                    icon: `${response.status}`,
+                    title: 'Gratulacje!',
+                    html: response.message
+                })
+            }).fail(function (response) {
+                Swal.fire({
+                    icon: `${response.status}`,
+                    title: 'Ojojoj!',
+                    html: response.message
+                })
+            })
+        }
+
+        function getATMs(){
+            $.ajax({
+                dataType: "json",
+                url: "https://api.foursquare.com/v2/venues/search?client_id={{config('services.places_api.client_id')}}&client_secret={{config('services.places_api.secret')}}&v=20180323&limit=100&ll=54.371570473891865,18.61244659572624&query=atm",
+                data: {},
+                success: function( response ) {
+                    $.each(response.response.venues, function($key, $value){
+                        $("#found_atms").append(""+"<div>"+($key+1)+" - "+$value.name+"");
+                        console.log($value.name);
+                    });
+                    console.log(response);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // Code for handling errors
+                    console.log("wyjebka :(");
+                    console.log(jqXHR);
+                }
+            });
+        }
+
 
     </script>
 </x-app-layout>
