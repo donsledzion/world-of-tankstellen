@@ -87,7 +87,6 @@
                                 <label for="search_radius" class="font-bold block text-sm" >Podaj promień wyszukiwania od środka mapy: [km]</label>
                                 <input id="search_radius" class="search_radius w-40" type="number" step="1" placeholder="Podaj promień" value="10">
                             <button class="search_button_radius btn-info bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="button">SZUKAJ</button>
-                            <button class="search_button_atm btn-info bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="button">SZUKAJ-ATM</button>
                             </div>
                         </div>
                         {{--======================================================================================--}}
